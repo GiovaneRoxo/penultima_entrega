@@ -22,7 +22,6 @@ public class ClienteDelete extends HttpServlet {
 		int clienteId = Integer.parseInt(request.getParameter("clienteId"));
 		ClienteDAO.delete(clienteId);
 		
-		ClienteCreateAndFind clienteCAndFind = new ClienteCreateAndFind();
-		clienteCAndFind.doGet(request, response);	
+		ClienteCreateAndFind clienteCAndFind = new ClienteCreateAndFind();	
 	}
 }

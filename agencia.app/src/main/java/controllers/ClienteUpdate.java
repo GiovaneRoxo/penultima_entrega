@@ -39,7 +39,6 @@ public class ClienteUpdate extends HttpServlet {
 		ClienteDAO.update(cliente);
 		
 		ClienteCreateAndFind clienteCreateAndFind = new ClienteCreateAndFind();
-		clienteCreateAndFind.doGet(request, response);
 	}
 
 }
