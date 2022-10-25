@@ -10,6 +10,7 @@ import models.Adm;
 
 
 
+
 public class AdmDAO {
 
 	private static Connection connection = MySqlConnection.createConnection();

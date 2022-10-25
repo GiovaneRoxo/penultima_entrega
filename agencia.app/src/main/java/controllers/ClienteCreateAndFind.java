@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,13 +14,14 @@ import models.Cliente;
 @Controller
 public class ClienteCreateAndFind {
 
+	@GetMapping("/todos_clientes")
 	protected ModelAndView doGet(Cliente cliente) {
 		
 		ModelAndView mvget = new ModelAndView();
 		List<Cliente> clientes = ClienteDAO.find(); 
 		
 		mvget.addObject("clientes", clientes);
-		mvget.setViewName("pages/adm/clientes.jsp");
+		mvget.setViewName("pages/adm/clientes");
 		return mvget;
 	}
 

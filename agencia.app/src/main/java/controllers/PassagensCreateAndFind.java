@@ -1,55 +1,46 @@
 package controllers;
 
-import java.io.IOException;
+
+
 import java.sql.Date;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import DAO.ClienteDAO;
 import DAO.PassagemDAO;
+import models.Cliente;
 import models.Passagem;
 
-@WebServlet("/Passagens")
-public class PassagensCreateAndFind extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+public class PassagensCreateAndFind {
 	
-	java.util.Date data = new java.util.Date();
-	public Date data_atual = new Date(data.getTime());
-       
-    public PassagensCreateAndFind() {
-        super();
-    
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	@GetMapping("/todas_passagens")
+	protected ModelAndView doGet() {
 		List<Passagem> passagens = PassagemDAO.find(); 
-		
-		request.setAttribute("passagens", passagens);
-		RequestDispatcher despachar = request.getRequestDispatcher("pages/adm/passagens.jsp");
-		despachar.forward(request, response);
+		ModelAndView mvget = new ModelAndView();
+		mvget.addObject("passagem", passagens);
+		mvget.setViewName("pages/adm/passagens");
+		return mvget;
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		int clienteid = ClienteDAO.findIdByEmail(email);
-		Passagem passagem = new Passagem();
+	@PostMapping("/Passagens")
+	protected ModelAndView doPost(Passagem passagem, Cliente cliente){
+		int clienteid = ClienteDAO.findIdByEmail(cliente.getEmail());
 		passagem.setFk_Cliente_cliente_id(clienteid);
-		passagem.setData_viagem(request.getParameter("dataViagem"));
-		passagem.setDestino(request.getParameter("Destinos"));
-		passagem.setOrigem(request.getParameter("Origem"));
 		passagem.setStatus_compra("aguardando pagamento");
-		passagem.setData_compra(data_atual);
+		long millis=System.currentTimeMillis();  
+		Date now = new Date(millis);
+		passagem.setData_compra(now);
 		PassagemDAO.criarPassagem(passagem);
-		RequestDispatcher despachar = request.getRequestDispatcher("pages/usuario/menu/minhas_passagens.jsp");
-		despachar.forward(request, response);
-		doGet(request, response);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("passagem", passagem);
+		mv.setViewName("pages/usuario/menu/conta_usuario");
+		return mv;
 	}
 
 }

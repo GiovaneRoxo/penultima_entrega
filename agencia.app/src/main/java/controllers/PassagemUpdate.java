@@ -37,7 +37,7 @@ public class PassagemUpdate extends HttpServlet {
 		PassagemDAO.update(passagem);
 		
 		PassagensCreateAndFind passagemCreateAndFind = new PassagensCreateAndFind();
-		passagemCreateAndFind.doGet(request, response);
+		
 	}
 
 }

@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html>
-<html class="bg-agencia">
+<html lang="pt-BR" class="bg-agencia" xmlns:th="http://www.thymeleaf.org"
+ 									  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>By-air - Clientes</title>
+    <title>By-air</title>
     <link rel="icon" href="./imgs/favicon.svg">
-    <link href="${pageContext.request.contextPath}/css/stylesheet.css" rel="stylesheet">
+    <link href="./css/stylesheet.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body class="bg-agencia2">
@@ -30,7 +29,7 @@
             		<ul class="nav justify-content-end" style="margin-top: 15px;">
               			<li class="nav-item">
                 			<div class="hover-color">
-                				<a class="login txt-color" href="${pageContext.request.contextPath}/pages/adm/menu.jsp">Adm
+                				<a class="login txt-color" href="#">Adm
                   				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                   					<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                   				</svg>
@@ -39,7 +38,7 @@
               			</li>
               			<li class="nav-item">
                 			<div class="hover-color">
-                				<a class="login txt-color" href="${pageContext.request.contextPath}/index.html">Sair
+                				<a class="login txt-color" href="/home">Sair
                   				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                   					<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                   				</svg>
@@ -64,9 +63,9 @@
 			      	</button>
 			        <div id="navcol-1" class="collapse navbar-collapse" style="margin-left: 30px;">
 			            <ul class="navbar-nav mb-2 mb-lg-0">
-			              <li class="nav-item"><a href="${pageContext.request.contextPath}/Passagens" class="nav-link active">Passagens</a></li>
-			              <li class="nav-item"><a href="${pageContext.request.contextPath}/CreateAndFind" class="nav-link active">Clientes</a></li>
-			          	</ul>
+			              <li class="nav-item"><a href="/todas_passagens" class="nav-link active">Passagens</a></li>
+			              <li class="nav-item"><a href="/todos_clientes" class="nav-link active">Clientes</a></li>
+			            </ul>
           			</div>
         		</div>
       		</nav>
@@ -80,26 +79,29 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Nome</th>
-								<th>CPF</th>
-								<th>Idade</th>
-								<th>Email</th>
+								<th>ID da passagem</th>
+								<th>ID do cliente</th>
+								<th>Data da viagem</th>
+								<th>Destino</th>
+								<th>Origem</th>
+								<th>Status da compra</th>
+								<th>Data da compra</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${clientes}" var="cliente">
-								<tr>
-									<td>${cliente.cliente_id}</td>
-									<td>${cliente.nome}</td>
-									<td>${cliente.cpf}</td>
-									<td>${cliente.idade}</td>
-									<td>${cliente.email}</td>
-									<td>
-										<a href="ClienteDestroy?clienteId=${cliente.cliente_id}">deletar</a> |
-										<a href="Update?clienteId=${cliente.cliente_id}">atualizar</a>
-									</td>
-							</c:forEach>
+							<tr th:each="passagem : ${passagem}">
+								<td><span th:text="${passagem.passagem_id}"></span></td>
+								<td><span th:text="${passagem.fk_Cliente_cliente_id}"></span></td>
+								<td><span th:text="${passagem.data_viagem}"></span></td>
+								<td><span th:text="${passagem.destino}"></span></td>
+								<td><span th:text="${passagem.origem}"></span></td>
+								<td><span th:text="${passagem.status_compra}"></span></td>
+								<td><span th:text="${passagem.data_compra}"></span></td>
+								<td>
+									<a th:href="@{/Destroy(passagemId=${passagem.passagem_id})}">deletar</a>
+									<a href="UpdatePassagem?passagemId=${passagem.passagem_id}">atualizar</a>
+							    </td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -109,7 +111,7 @@
 	<footer class="bg-agencia">
     	<div class="container d-flex flex-wrap justify-content-between align-items-center py-3">
       		<div class="col-md-4 d-flex align-items-center">
-        		<span class="mb-3 mb-md-0 text-white">© 2022 Company, Inc</span>
+        		<span class="mb-3 mb-md-0 text-white">Â© 2022 Company, Inc</span>
       		</div>
       			<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
         			<li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
@@ -118,7 +120,7 @@
       			</ul>
     		</div>
   	</footer>
-  <script src="${pageContext.request.contextPath}/scripts/script.js"></script>
+  <script src="./scripts/script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>

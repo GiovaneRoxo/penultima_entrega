@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -107,10 +108,10 @@ public class PassagemDAO {
 			ps.setInt(1, passagemId);
 			ps.executeUpdate();
 			
-			System.out.println("--Correct delete on cliente");
+			System.out.println("--Correct delete on passagem");
 			
 		} catch(SQLException e) {
-			System.out.println("--Incorrect delete on cliente. " + e.getMessage());
+			System.out.println("--Incorrect delete on passagem. " + e.getMessage());
 		}
 	}
 
